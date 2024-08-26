@@ -10,17 +10,20 @@ The code is based on [LISA](https://github.com/huaxiuyao/LISA) which is also bas
 ## Prerequisites
 - python 3.8.16
 - matplotlib 3.7.1
-- numpy 1.24.2
+- numpy 1.24.4
 - pandas 2.0.0
 - pillow 9.5.0
 - pytorch 1.13.1
 - pytorch_transformers 1.2.0
 - torchvision 0.14.1
 - torchaudio 0.13.1
-- tqdm 4.65.0
+- tqdm 4.65.5
 - wilds 2.0.0
 - transformers 4.27.4
 - ipdb 0.13.13 
+- pexpect 4.9.0
+- traitlets 5.14.3
+- psutil 6.0.0
 
 ## Datasets and Scripts
 <!--
