@@ -177,8 +177,8 @@ n_class = getattr(models, f"{args.dataset}_n_class")
 n_domain = getattr(models, f"{args.dataset}_n_domain") #TODO: Set all other dataset in domain shift
 
 # TODO: Current Complete = [Civil, ]
-if args.group_by_label:
-    n_domain = 2
+# if args.group_by_label:
+#     n_domain = 2
 
 assert args.optimiser in ['SGD', 'Adam', 'AdamW'], "Invalid choice of optimiser, choose between 'Adam' and 'SGD'"
 # TODO: Check Civil or bert-based model, Adam(LISA: AMSgrad) or AdamW(Wilds)
@@ -716,6 +716,9 @@ def test(test_loader, agg, loader_type='test', verbose=True, save_ypred=False, s
 
 if __name__ == '__main__':
 
+    # Start Time
+    start_time = time.time()
+
     if args.scheduler == 'cosine_schedule_with_warmup':
         if args.algorithm == "asgdro" or args.algorithm == 'lisa_asgdro':
             scheduler = get_cosine_schedule_with_warmup(
@@ -744,6 +747,10 @@ if __name__ == '__main__':
 
     print(
         "=" * 30 + f"Training: {args.algorithm}" + "=" * 30)
+
+    # Start Time
+    start_time = time.time()
+
     train = locals()[f'train_{args.algorithm}']
     agg = defaultdict(list)
     agg['val_stat'] = [0.]
@@ -757,6 +764,10 @@ if __name__ == '__main__':
         save_best_model(model, runPath, agg)
         if args.save_pred:
             save_pred(model, train_loader, epoch, args.save_dir)
+    
+    # End Time
+    end_time = time.time()
+    exec_time = end_time - start_time
 
     if args.debug:
         modelC = getattr(models, args.dataset)
@@ -774,3 +785,4 @@ if __name__ == '__main__':
         final_df = pd.concat([final_df, df])
         final_df.to_csv(csv_path)
 
+    print("Time for Execution: ", exec_time)

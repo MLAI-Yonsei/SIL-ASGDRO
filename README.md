@@ -11,7 +11,7 @@ The code is based on [LISA](https://github.com/huaxiuyao/LISA) which is also bas
 - python 3.8.16
 - matplotlib 3.7.1
 - numpy 1.24.4
-- pandas 2.0.0
+- pandas 1.5.3
 - pillow 9.5.0
 - pytorch 1.13.1
 - pytorch_transformers 1.2.0
@@ -24,6 +24,7 @@ The code is based on [LISA](https://github.com/huaxiuyao/LISA) which is also bas
 - pexpect 4.9.0
 - traitlets 5.14.3
 - psutil 6.0.0
+- torch_scatter 
 
 ## Datasets and Scripts
 <!--
