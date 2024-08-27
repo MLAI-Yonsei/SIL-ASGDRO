@@ -32,7 +32,7 @@ from bypass_bn import enable_running_stats, disable_running_stats
 runId = datetime.datetime.now().isoformat().replace(':', '_')
 torch.backends.cudnn.benchmark = True
 
-parser = argparse.ArgumentParser(description='Gradient Matching for Domain Generalization.')
+parser = argparse.ArgumentParser(description='Sufficient Invariant Learning for Distribution Shift')
 # General
 parser.add_argument('--dataset', type=str, default='civil',
                     help="Name of dataset, choose from amazon, camelyon, "
