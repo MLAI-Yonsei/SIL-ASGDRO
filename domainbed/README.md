@@ -37,7 +37,7 @@ Example results (Just Example):
 +------------+--------------+---------+---------+---------+---------+
 
 ```
-In this example, the DG performance of ASGDRO for VLCS dataset is 86.919%.
+In this example, the DG performance of PACS is 86.919%.
 
 ## Citation
 
