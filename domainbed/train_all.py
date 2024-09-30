@@ -75,8 +75,6 @@ def main():
     hparams = Config(*keys, default=hparams)
     hparams.argv_update(left_argv)
 
-    # Threshold Template:
-    threshold = {0:0.88, 1:0.80, 2:0.97, 3:0.78}
     # setup debug
     if args.debug:
         args.checkpoint_freq = 5
@@ -173,9 +171,7 @@ def main():
             logger=logger,
             writer=writer,
         )
-        if threshold[idxx]>res['iid']:
-            logger.info(f"Early Stopped: Env {idxx} - {threshold[idxx]}>{res['iid']}")
-            sys.exit()
+
         all_records.append(records)
         for k, v in res.items():
             results[k].append(v)
@@ -190,8 +186,7 @@ def main():
     logger.info("Algorithm: %s" % args.algorithm)
     logger.info("Dataset: %s" % args.dataset)
     name = f"lr_{hparams['lr']}_wd_{hparams['weight_decay']}_rb_{hparams['groupdro_eta']}_rho_{hparams['rho']}_do_{hparams['resnet_dropout']}_bs_{hparams['batch_size']}_seed_{args.seed}"
-    results["name"] = name
-    df = pd.DataFrame(results)
+        
     path_dir = f"{args.result_path}/{args.dataset}"
     path_ = f"./{path_dir}/merged_result.csv"
     if not os.path.exists(path_dir):
@@ -232,15 +227,12 @@ def main():
     else:
         merged_df.to_csv(path_, index=False)
 
-    # table = PrettyTable(["Selection"] + dataset.environments + ["Avg."])
-    # for key, row in results.items():
-    #     if key != "name":
-    #         row.append(np.mean(row))
-    #         row = [f"{acc:.3%}" for acc in row]
-    #     else: 
-    #         row = [row]
-    #     table.add_row([key] + row)
-    # logger.nofmt(table)
+    table = PrettyTable(["Selection"] + dataset.environments + ["Avg."])
+    for key, row in results.items():
+        row.append(np.mean(row))
+        row = [f"{acc:.3%}" for acc in row]
+        table.add_row([key] + row)
+    logger.nofmt(table)
 
 
 if __name__ == "__main__":

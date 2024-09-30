@@ -275,6 +275,8 @@ def train(test_envs, args, hparams, n_steps, checkpoint_freq, logger, writer, ta
         in_key = "train_inTE"
     else:
         in_key = "train_out"
+    
+    
 
     iid_best_indomain = records.argmax("train_out")[in_key]
     last_indomain = records[-1][in_key]

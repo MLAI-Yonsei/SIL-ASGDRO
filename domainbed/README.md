@@ -1,15 +1,4 @@
-# SAGM
-The official codes of SAGM:  [Sharpness-Aware Gradient Matching for Domain Generalization](https://arxiv.org/pdf/2303.10353.pdf)
-
-In this paper, we present present an algorithm named Sharpness-Aware Gradient Matching (SAGM) to improve model generalization capability.
-Specifically, the optimization objective of SAGM will simultaneously minimize the empirical risk, the perturbed loss (i.e., the maximum loss within a neighborhood in the parameter space), and the gap between them.
-
-<p align="center">
-    <img src="./assets/motivation.png" width="90%" />
-</p>
-
-Note that this project is built upon [DomainBed@3fe9d7](https://github.com/facebookresearch/DomainBed/tree/3fe9d7bb4bc14777a42b3a9be8dd887e709ec414).
-
+# DomainBed
 
 ## Preparation
 
@@ -25,29 +14,17 @@ pip install -r requirements.txt
 python -m domainbed.scripts.download --data_dir=/my/datasets/path
 ```
 
-### Environments
-
-Environment details used for our study.
-
-```
-Python: 3.8.13
-PyTorch: 1.12.1
-Torchvision: 0.13.1
-CUDA: 11.3
-```
-
 ## How to Run
 
 `train_all.py` script conducts multiple leave-one-out cross-validations for all target domain.
 
 ```sh
-python train_all.py exp_name --dataset PACS --data_dir /my/datasets/path --trial_seed 0 --algorithm SAGM_DG --checkpoint_freq 100 --alpha 0.001 --lr 3e-5 --weight_decay 1e-4 --resnet_dropout 0.5 --swad False
-
-``` 
+python train_all.py my_exp_name --dataset VLCS --data_dir /my/datasets/path --trial_seed 0 --seed 0 --algorithm ASGDRO --checkpoint_freq 100 --rho 0.8 --groupdro_eta 1e-2 --lr 1e-5 --weight_decay 1e-6 --resnet_dropout 0.5 --swad False --result_path my_result_name --deterministic
+```
 
 Experiment results are reported as a table. In the table, the row `iid` indicates out-of-domain accuracy from SAGM.
 
-Example results:
+Example results (Just Example):
 ```
 +------------+--------------+---------+---------+---------+---------+
 | Selection  | art_painting | cartoon |  photo  |  sketch |   Avg.  |
@@ -60,69 +37,9 @@ Example results:
 +------------+--------------+---------+---------+---------+---------+
 
 ```
-In this example, the DG performance of SAGM for PACS dataset is 86.919%.
-
-### Reproduce the results of the paper
-
-We provide the instructions to reproduce the main results of the paper, Table 1 and 2.
-Note that the difference in a detailed environment or uncontrolled randomness may bring a little different result from the paper.
-
-- PACS
-
-```
-python train_all.py PACS0 --dataset PACS --data_dir /my/datasets/path --deterministic --trial_seed 0 --algorithm SAGM_DG --checkpoint_freq 100 --alpha 0.001 --lr 3e-5 --weight_decay 1e-4 --resnet_dropout 0.5 --swad False
-```
-
-- VLCS
-
-```
-python train_all.py VLCS0 --dataset VLCS --data_dir /my/datasets/path --deterministic --trial_seed 0 --algorithm SAGM_DG --checkpoint_freq 100 --alpha 0.001 --lr 1e-5 --weight_decay 1e-4 --resnet_dropout 0.5 --swad False
-```
-
-- OfficeHome
-
-```
-python train_all.py OH0 --dataset OfficeHome --data_dir /my/datasets/path --deterministic --trial_seed 0 --algorithm SAGM_DG --checkpoint_freq 100 --alpha 0.0005 --lr 1e-5 --weight_decay 1e-4 --resnet_dropout 0.5 --swad False
-```
-
-- TerraIncognita
-
-```
-python train_all.py TR0 --dataset TerraIncognita --data_dir /my/datasets/path --deterministic --trial_seed 0 --algorithm SAGM_DG --checkpoint_freq 100 --alpha 0.001 --lr 1e-5 --weight_decay 1e-4 --resnet_dropout 0.5 --swad False
-```
-
-- DomainNet
-
-```
-python train_all.py DN0 --dataset DomainNet --data_dir /my/datasets/path --deterministic --trial_seed 0 --algorithm SAGM_DG --checkpoint_freq 100 --alpha 0.0005 --lr 3e-5 --weight_decay 1e-6 --resnet_dropout 0.5 --swad False
-```
-
-
-## Main Results
-
-<p align="center">
-    <img src="./assets/main_results.png" width="80%" />
-</p>
-
-## Our searched HPs
-
-<p align="center">
-    <img src="./assets/HP.png" width="80%" />
-</p>
+In this example, the DG performance of ASGDRO for VLCS dataset is 86.919%.
 
 ## Citation
-
-Please cite this paper if it helps your research:
-
-```
-@inproceedings{wang2023sharpness,
-  title={Sharpness-Aware Gradient Matching for Domain Generalization},
-  author={Wang, Pengfei and Zhang, Zhaoxiang and Lei, Zhen and Zhang, Lei},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-  pages={3769--3778},
-  year={2023}
-}
-```
 
 Our work is inspired by the following works:
 
@@ -153,11 +70,18 @@ url={https://openreview.net/forum?id=edONMAnhLu-}
   year={2021}
 }
 ```
+```
+@inproceedings{wang2023sharpness,
+  title={Sharpness-Aware Gradient Matching for Domain Generalization},
+  author={Wang, Pengfei and Zhang, Zhaoxiang and Lei, Zhen and Zhang, Lei},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={3769--3778},
+  year={2023}
+}
+```
 
 
 ## License
-
-This source code is released under the MIT license, included [here](./LICENSE).
 
 This project includes some code from [DomainBed](https://github.com/facebookresearch/DomainBed/tree/3fe9d7bb4bc14777a42b3a9be8dd887e709ec414), also MIT licensed.
 
